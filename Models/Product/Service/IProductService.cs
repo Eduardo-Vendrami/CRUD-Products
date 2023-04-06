@@ -1,7 +1,7 @@
 ﻿using CRUD_Products.Models.Products.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CRUD_Products.Models.Products.Service
+namespace CRUD_Products.Models.Product.Service
 {
     public interface IProductService
     {

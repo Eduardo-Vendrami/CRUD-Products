@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Mail;
 
-namespace CRUD_Products.Models.Products.Service
+namespace CRUD_Products.Models.Product.Service
 {
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository; 
 
-        public ProductService(IProductRepository productRepository)
+        public ProductService(
+            IProductRepository productRepository)
         {
             _productRepository = productRepository;
         } 
@@ -18,24 +19,23 @@ namespace CRUD_Products.Models.Products.Service
         public async Task<ActionResult<string>> RegisterProductAsync(
             ProductRequest product)
         {
-            var retornoTrue = "Produto cadastrado com sucesso.";
-            var retornoFalse = "Produto não cadastrado.";
+            
 
-            var result = await RegisterProduct(product);
+            var result = await RegisterProduct(
+                product);
 
             var response = GetResponseCreate(
-                retornoTrue, 
-                retornoFalse,
                 result);
 
             return response;
         }
 
         private static string GetResponseCreate(
-            string retornoTrue,
-            string retornoFalse, 
             int result)
         {
+            var retornoTrue = "Produto cadastrado com sucesso.";
+            var retornoFalse = "Produto não cadastrado.";
+
             return result >= 1 ? retornoTrue : retornoFalse;
         }
         private async Task<int> RegisterProduct(
@@ -59,14 +59,16 @@ namespace CRUD_Products.Models.Products.Service
         public async Task<ActionResult<ProductResponse>> ReadProductAsync(
             ProductRequest product)
         {
-            var result = await ReadProduct(product);
+            var result = await GetProductAsync(
+                product);
 
-            var response = await GetReponseRead(result);
+            var response = await GetReponseReadAsync(
+                result);
 
             return response;
         }
 
-        private async Task<ProductResponse> GetReponseRead(
+        private async Task<ProductResponse> GetReponseReadAsync(
             IEnumerable<ProductResponse> product)
         {
             var response = new ProductResponse();
@@ -78,7 +80,7 @@ namespace CRUD_Products.Models.Products.Service
             return response;
         }
 
-        private async Task<IEnumerable<ProductResponse>> ReadProduct(
+        private async Task<IEnumerable<ProductResponse>> GetProductAsync(
             ProductRequest product)
         {
             IEnumerable<ProductResponse> response = new List<ProductResponse>();
@@ -99,20 +101,18 @@ namespace CRUD_Products.Models.Products.Service
         public async Task<ActionResult<string>> UpdateProductAsync(
             ProductRequest product)
         {
-            var retornoTrue = "Produto atualizado com sucesso.";
-            var retornoFalse = "Produto não atualizado.";
+            
 
-            var result = await UpdateProduct(product);
+            var result = await ModifyProductAsync(
+                product);
 
-            var response = await GetReponseUpdate(
-                retornoTrue, 
-                retornoFalse, 
+            var response = await GetReponseUpdateAsync(
                 result);
 
             return response;
         }
 
-        private async Task<int> UpdateProduct(
+        private async Task<int> ModifyProductAsync(
             ProductRequest product)
         {
             var response = 0;
@@ -130,30 +130,26 @@ namespace CRUD_Products.Models.Products.Service
             return response;
         }
 
-        private async Task<string> GetReponseUpdate(
-            string retornoTrue,
-            string retornoFalse,
+        private async Task<string> GetReponseUpdateAsync(
             int result)
         {
+            var retornoTrue = "Produto atualizado com sucesso.";
+            var retornoFalse = "Produto não atualizado.";
+
             return result >= 1 ? retornoTrue : retornoFalse;
         }
 
         public async Task<ActionResult<string>> DeleteProductAsync(ProductRequest product)
         {
-            var retornoTrue = "Produto deletado com sucesso.";
-            var retornoFalse = "Produto não deletado.";
+            var result = await RemoveProductAsync(product);
 
-            var result = await DeleteProduct(product);
-
-            var response = await GetReponseDelete(
-                retornoTrue,
-                retornoFalse,
+            var response = await GetReponseDeleteAsync(
                 result);
 
             return response;
         }
 
-        private async Task<int> DeleteProduct(
+        private async Task<int> RemoveProductAsync(
             ProductRequest product)
         {
             var response = 0;
@@ -171,11 +167,12 @@ namespace CRUD_Products.Models.Products.Service
             return response;
         }
 
-        private async Task<string> GetReponseDelete(
-            string retornoTrue,
-            string retornoFalse,
+        private async Task<string> GetReponseDeleteAsync(
             int result)
         {
+            var retornoTrue = "Produto deletado com sucesso.";
+            var retornoFalse = "Produto não deletado.";
+
             return result >= 1 ? retornoTrue : retornoFalse;
         }
 

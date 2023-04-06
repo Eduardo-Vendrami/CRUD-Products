@@ -1,20 +1,25 @@
 using CRUD_Products.Models.DataAccess;
+using CRUD_Products.Models.Login.Repository;
+using CRUD_Products.Models.Login.Service;
+using CRUD_Products.Models.Product.Service;
 using CRUD_Products.Models.Products.Repository;
-using CRUD_Products.Models.Products.Service;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddTransient<IProductService, ProductService>();  
+builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddSingleton<IProductService, ProductService>();
 
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddSingleton<IProductRepository, ProductRepository>();
 
+builder.Services.AddTransient<ILoginService, LoginService>();
+builder.Services.AddSingleton<ILoginRepository, LoginRepository>();
+
 builder.Services.AddTransient<IConnection, Connection>();
 builder.Services.AddSingleton<IConnection, Connection>();
+// Add services to the container.
 
 builder.Services.AddControllers();
 
@@ -38,5 +43,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();
+

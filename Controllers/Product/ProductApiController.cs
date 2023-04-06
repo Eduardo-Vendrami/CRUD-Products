@@ -1,8 +1,8 @@
-﻿using CRUD_Products.Models.Products.Models;
-using CRUD_Products.Models.Products.Service;
+﻿using CRUD_Products.Models.Product.Service;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Net;
+using CRUD_Products.Models.Products.Models;
 
 namespace CRUD_Products.Controllers.Product
 {
@@ -16,42 +16,49 @@ namespace CRUD_Products.Controllers.Product
             _productService = productService;
         }
 
-        [Route("create")]
+        [Route("read")]
         [HttpGet]
-        public async Task<IActionResult> GetProduct(
+        public async Task<IActionResult> GetProductAsync(
             ProductRequest request)
         {
-            var result = await _productService.RegisterProductAsync(request);
+            var result = await _productService.ReadProductAsync(
+                    request);
 
-            return Ok(result);  
+            return Ok(result);
         }
 
-        [Route("read")]
+        [Route("create")]
         [HttpPost]
-        public async Task<IActionResult> PostProduct(
+        public async Task<IActionResult> PostProductAsync(
             [FromBody] ProductRequest request)
         {
-            var result = await _productService.ReadProductAsync(request);
+            if (request.ProductName == null)
+                return BadRequest("Nome do produto não pode estar vazio.");
+
+            var result = await _productService.RegisterProductAsync(
+                    request);
 
             return Ok(result);
         }
 
         [Route("update")]
         [HttpPut]
-        public async Task<IActionResult> PutProduct(
+        public async Task<IActionResult> PutProductAsync(
             [FromBody] ProductRequest request)
         {
-            var result = await _productService.UpdateProductAsync(request);
+            var result = await _productService.UpdateProductAsync(
+                    request);
 
             return Ok(result);
         }
 
         [Route("delete")]
         [HttpDelete]
-        public async Task<IActionResult> DeleteProduct(
+        public async Task<IActionResult> DeleteProductAsync(
             ProductRequest request)
         {
-            var result = await _productService.DeleteProductAsync(request);
+            var result = await _productService.DeleteProductAsync(
+                    request);
 
             return Ok(result);
         }
