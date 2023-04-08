@@ -24,13 +24,13 @@ namespace CRUD_Products.Models.Product.Service
             var result = await RegisterProduct(
                 product);
 
-            var response = GetResponseCreate(
+            var response = await GetResponseCreate(
                 result);
 
             return response;
         }
 
-        private static string GetResponseCreate(
+        private async Task<string> GetResponseCreate(
             int result)
         {
             var retornoTrue = "Produto cadastrado com sucesso.";

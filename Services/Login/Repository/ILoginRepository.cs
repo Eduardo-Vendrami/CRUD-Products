@@ -1,14 +1,16 @@
-﻿using CRUD_Products.Models.Login.Models.Request;
+﻿using CRUD_Products.Models.Login.Models;
+using CRUD_Products.Models.Login.Models.Request;
 using CRUD_Products.Models.Login.Models.Response;
 
 namespace CRUD_Products.Models.Login.Repository
 {
     public interface ILoginRepository
     {
-        public Task<LoginResponse> LoginAsync(
+        public Task<User> LoginAsync(
             LoginRequest loginRequest);
 
         public Task<int> LoginRegisterAsync(
-            LoginRequest loginRequest);
+            LoginRequest loginRequest,
+            string profile);
     }
 }

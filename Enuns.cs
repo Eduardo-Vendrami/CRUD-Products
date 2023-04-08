@@ -1,6 +1,13 @@
-﻿namespace CRUD_Products
+﻿using Microsoft.AspNetCore.Authorization.Infrastructure;
+
+namespace CRUD_Products
 {
-    public class Enuns
+    public enum Profiles
     {
+        Adm,
+
+        Seller,
+
+        Customer
     }
 }

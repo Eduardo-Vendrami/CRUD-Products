@@ -8,7 +8,7 @@ namespace CRUD_Products.Services.Token.Service
 {
     public class TokenService : ITokenService
     {
-        public static string GenerateToken(User user)
+        public string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Settings.Secret);

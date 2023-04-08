@@ -12,5 +12,11 @@ namespace CRUD_Products.Models.Login.Models.Request
 
         [JsonProperty("email")]
         public string Email { get; set; }
+
+        [JsonProperty("isSeller")]
+        public bool IsSeller { get; set; }
+
+        [JsonProperty("isCustomer")]
+        public bool IsCustomer { get; set; }
     }
 }
