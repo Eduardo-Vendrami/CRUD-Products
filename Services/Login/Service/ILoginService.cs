@@ -8,5 +8,8 @@ namespace CRUD_Products.Models.Login.Service
     {
         public Task<ActionResult<LoginResponse>> LoginAsync(
             LoginRequest loginRequest);
+
+        public Task<ActionResult<string>> LoginRegisterAsync(
+            LoginRequest loginRequest);
     }
 }

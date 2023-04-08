@@ -1,7 +1,5 @@
 ﻿using CRUD_Products.Models.Product.Service;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Mail;
-using System.Net;
 using CRUD_Products.Models.Products.Models;
 
 namespace CRUD_Products.Controllers.Product
