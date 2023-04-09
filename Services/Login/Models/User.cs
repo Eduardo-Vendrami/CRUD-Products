@@ -1,6 +1,8 @@
-﻿namespace CRUD_Products.Models.Login.Models
+﻿using CRUD_Products.Models.Base;
+
+namespace CRUD_Products.Models.Login.Models
 {
-    public class User
+    public class User : BaseResponse
     {
         public string Username { get; set; }
         public string Password { get; set; }

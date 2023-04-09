@@ -6,10 +6,15 @@ namespace CRUD_Products.Models.Login.Service
 {
     public interface ILoginService
     {
-        public Task<ActionResult<LoginResponse>> LoginAsync(
+        public Task<ActionResult<LoginResponse>> LoginSignInAsync(
             LoginRequest loginRequest);
 
-        public Task<ActionResult<string>> LoginRegisterAsync(
+        public Task<ActionResult<string>> LoginSignUpAsync(
+            LoginRequest loginRequest);
+
+        public Task<ActionResult<LoginResponse>> LoginUpdateAsync(
+            LoginRequest loginRequest);
+        public Task<ActionResult<LoginResponse>> LoginForgetPasswordAsync(
             LoginRequest loginRequest);
     }
 }

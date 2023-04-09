@@ -4,6 +4,9 @@ namespace CRUD_Products.Models.Login.Models.Request
 {
     public class LoginRequest
     {
+        [JsonProperty("userId")]
+        public string UserId { get; set; }
+
         [JsonProperty("username")]
         public string Username { get; set; }
 
@@ -18,5 +21,11 @@ namespace CRUD_Products.Models.Login.Models.Request
 
         [JsonProperty("isCustomer")]
         public bool IsCustomer { get; set; }
+
+        [JsonProperty("newUsername")]
+        public string NewUsername { get; set; }
+
+        [JsonProperty("newEmail")]
+        public string NewEmail { get; set; }
     }
 }

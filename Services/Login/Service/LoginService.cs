@@ -1,10 +1,13 @@
-﻿using CRUD_Products.Models.Login.Models;
+﻿using Azure.Core;
+using CRUD_Products.Models.Login.Models;
 using CRUD_Products.Models.Login.Models.Request;
 using CRUD_Products.Models.Login.Models.Response;
 using CRUD_Products.Models.Login.Repository;
 using CRUD_Products.Services.Token.Service;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mail;
+using System.Net;
 
 namespace CRUD_Products.Models.Login.Service
 {
@@ -21,11 +24,11 @@ namespace CRUD_Products.Models.Login.Service
             _tokenService = tokenService;
         }
 
-        public async Task<ActionResult<LoginResponse>> LoginAsync(
+        public async Task<ActionResult<LoginResponse>> LoginSignInAsync(
             LoginRequest loginRequest)
         {            
-            var user = await GetLoginAsync(
-                loginRequest);
+            var user = await _loginRepository.LoginAsync(
+                    loginRequest);
 
             var response = await GetResponseLoginAsync(
                 loginRequest, 
@@ -64,25 +67,7 @@ namespace CRUD_Products.Models.Login.Service
             return response;
         }
 
-        private async Task<User> GetLoginAsync(
-            LoginRequest loginRequest)
-        {
-            var user = new User();
-
-            try
-            {
-                user = await _loginRepository.LoginAsync(
-                    loginRequest);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-
-            return user;
-        }
-
-        public async Task<ActionResult<string>> LoginRegisterAsync(
+        public async Task<ActionResult<string>> LoginSignUpAsync(
             LoginRequest loginRequest)
         {
             var returnTrue = "Usuário cadastrado";
@@ -90,9 +75,9 @@ namespace CRUD_Products.Models.Login.Service
             var profile = await GetProfile(
                 loginRequest);
 
-            await RegisterLoginAsync(
-                loginRequest,
-                profile);
+            await _loginRepository.LoginRegisterAsync(
+                    loginRequest,
+                    profile);
 
             return returnTrue;
         }
@@ -114,21 +99,55 @@ namespace CRUD_Products.Models.Login.Service
             return profile;
         }
 
-        private async Task RegisterLoginAsync(
-            LoginRequest loginRequest,
-            string profile)
+        public async Task<ActionResult<LoginResponse>> LoginUpdateAsync(
+            LoginRequest loginRequest)
         {
-            try
-            {
-                await _loginRepository.LoginRegisterAsync(
-                    loginRequest,
-                    profile);
-            }
-            catch (Exception ex)
-            {
+            var result = new LoginResponse();
+            var messageFalse = "Nome de usuário já existente.";
+            var messageTrue = "Informações atualizadas.";
 
-                throw;
+            var existingUser = await ValidateUExistingUserAsync(
+                loginRequest);
+
+            if (existingUser.IsSuccess = true) 
+            {
+                return result = new LoginResponse()
+                {
+                    IsSuccess = false,
+                    Message = messageFalse
+                };
             }
+
+            var updateUser = await _loginRepository.UpdateUserAsync(
+                loginRequest);
+
+            if (updateUser >= 1)
+            {
+                result = new LoginResponse() 
+                {
+                    IsSuccess = true,
+                    Message = messageTrue
+                };
+            }
+
+            return result;
+        }
+
+        private async Task<LoginResponse> ValidateUExistingUserAsync(
+            LoginRequest loginRequest)
+        {
+            var existingUser = new User();
+            var result = new LoginResponse();
+
+            existingUser = await _loginRepository.ValidateUserAsync(
+                loginRequest);
+
+            if (existingUser.Username == loginRequest.Username)
+                result.IsSuccess= false;
+
+            result.IsSuccess = true;
+
+            return result;
         }
     }
 }

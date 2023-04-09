@@ -1,10 +1,12 @@
 ﻿using CRUD_Products.Models.Product.Service;
 using Microsoft.AspNetCore.Mvc;
 using CRUD_Products.Models.Products.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CRUD_Products.Controllers.Product
 {
     [Route("v1/products")]
+    [Authorize]
     public class ProductApiController : ControllerBase
     {
         private readonly IProductService _productService;

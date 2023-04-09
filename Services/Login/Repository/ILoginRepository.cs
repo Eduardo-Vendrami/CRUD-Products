@@ -12,5 +12,9 @@ namespace CRUD_Products.Models.Login.Repository
         public Task<int> LoginRegisterAsync(
             LoginRequest loginRequest,
             string profile);
+        public Task<User> ValidateUserAsync(
+            LoginRequest loginRequest);
+        public Task<int> UpdateUserAsync(
+            LoginRequest loginRequest);
     }
 }

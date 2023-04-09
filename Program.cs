@@ -7,6 +7,7 @@ using CRUD_Products.Models.Products.Repository;
 using CRUD_Products.Services.Token.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -32,6 +33,12 @@ builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddSingleton<ITokenService, TokenService>();
 
 // Add services to the container.
+
+builder.Services.AddResponseCompression(options => 
+{
+    options.Providers.Add<GzipCompressionProvider>();
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] {"application/json"});
+});  
 
 builder.Services.AddControllers();
 
