@@ -149,5 +149,10 @@ namespace CRUD_Products.Models.Login.Service
 
             return result;
         }
+
+        public Task<ActionResult<LoginResponse>> LoginForgetPasswordAsync(LoginRequest loginRequest)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

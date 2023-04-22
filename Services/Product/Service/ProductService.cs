@@ -56,28 +56,13 @@ namespace CRUD_Products.Models.Product.Service
             return result;
         }
 
-        public async Task<ActionResult<ProductResponse>> ReadProductAsync(
+        public async Task<ActionResult<IEnumerable<ProductResponse>>> ReadProductAsync(
             ProductRequest product)
         {
             var result = await GetProductAsync(
                 product);
 
-            var response = await GetReponseReadAsync(
-                result);
-
-            return response;
-        }
-
-        private async Task<ProductResponse> GetReponseReadAsync(
-            IEnumerable<ProductResponse> product)
-        {
-            var response = new ProductResponse();
-
-            response.ProductName = product.FirstOrDefault().ProductName;
-            response.Price = product.FirstOrDefault().Price;
-            response.ProductId = product.FirstOrDefault().ProductId;
-
-            return response;
+            return result.ToList();
         }
 
         private async Task<IEnumerable<ProductResponse>> GetProductAsync(

@@ -8,7 +8,7 @@ namespace CRUD_Products.Models.Product.Service
         public Task<ActionResult<string>> RegisterProductAsync(
             ProductRequest product);
 
-        public Task<ActionResult<ProductResponse>> ReadProductAsync(
+        public Task<ActionResult<IEnumerable<ProductResponse>>> ReadProductAsync(
             ProductRequest product);
 
         public Task<ActionResult<string>> UpdateProductAsync(

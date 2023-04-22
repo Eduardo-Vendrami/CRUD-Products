@@ -50,14 +50,16 @@ namespace CRUD_Products.Models.Products.Repository
             {
                 var parameters = new
                 {
-                    productName = product.ProductName
+                    productId = product.ProductId
                 };
 
-                var sql = @"SELECT PRODUCT_NAME As ProductName,
+                var whereProductById = product.ProductId != null ? "WHERE PRODUCT_ID = @productId" : string.Empty;
+
+                var sql = $@"SELECT PRODUCT_NAME As ProductName,
                             PRICE As Price,
                             PRODUCT_ID As ProductId
                             FROM PRODUCTS
-                            WHERE PRODUCT_NAME = @productName";
+                            {whereProductById}";
 
                 return await connection.QueryAsync<ProductResponse>(
                     sql,

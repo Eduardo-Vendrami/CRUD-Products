@@ -18,7 +18,7 @@ namespace CRUD_Products.Controllers.Product
 
         [Route("read")]
         [HttpGet]
-        public async Task<IActionResult> GetProductAsync(
+        public async Task<IActionResult> GetProductByIdAsync(
             ProductRequest request)
         {
             var result = await _productService.ReadProductAsync(

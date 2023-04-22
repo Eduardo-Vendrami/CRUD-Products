@@ -6,7 +6,6 @@ using CRUD_Products.Models.Product.Service;
 using CRUD_Products.Models.Products.Repository;
 using CRUD_Products.Services.Token.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
