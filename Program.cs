@@ -1,22 +1,63 @@
+using CRUD_Products;
 using CRUD_Products.Models.DataAccess;
+using CRUD_Products.Models.Login.Repository;
+using CRUD_Products.Models.Login.Service;
+using CRUD_Products.Models.Product.Service;
 using CRUD_Products.Models.Products.Repository;
-using CRUD_Products.Models.Products.Service;
+using CRUD_Products.Services.Token.Service;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddTransient<IProductService, ProductService>();  
+builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddSingleton<IProductService, ProductService>();
 
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddSingleton<IProductRepository, ProductRepository>();
 
+builder.Services.AddTransient<ILoginService, LoginService>();
+builder.Services.AddSingleton<ILoginService, LoginService>();
+
+builder.Services.AddTransient<ILoginRepository, LoginRepository>();
+builder.Services.AddSingleton<ILoginRepository, LoginRepository>();
+
 builder.Services.AddTransient<IConnection, Connection>();
 builder.Services.AddSingleton<IConnection, Connection>();
 
+builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddSingleton<ITokenService, TokenService>();
+
+// Add services to the container.
+
+builder.Services.AddResponseCompression(options => 
+{
+    options.Providers.Add<GzipCompressionProvider>();
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] {"application/json"});
+});  
+
 builder.Services.AddControllers();
+
+var key = Encoding.ASCII.GetBytes(Settings.Secret);
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters 
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+    };
+});
 
 builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer("connectionString"));
 
@@ -35,8 +76,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();
+
