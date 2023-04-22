@@ -4,6 +4,7 @@ using CRUD_Products.Models.Login.Repository;
 using CRUD_Products.Models.Login.Service;
 using CRUD_Products.Models.Product.Service;
 using CRUD_Products.Models.Products.Repository;
+using CRUD_Products.Services.Email.Service;
 using CRUD_Products.Services.Token.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -30,6 +31,9 @@ builder.Services.AddSingleton<IConnection, Connection>();
 
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddSingleton<ITokenService, TokenService>();
+
+builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
 
 // Add services to the container.
 

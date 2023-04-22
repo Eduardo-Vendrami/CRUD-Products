@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Net;
+using CRUD_Products.Services.Email.Service;
 
 namespace CRUD_Products.Models.Login.Service
 {
@@ -15,13 +16,16 @@ namespace CRUD_Products.Models.Login.Service
     {
         private readonly ILoginRepository _loginRepository;
         private readonly ITokenService _tokenService;
+        private readonly IEmailService _emailService;
 
         public LoginService(
             ILoginRepository loginRepository,
-            ITokenService tokenService)
+            ITokenService tokenService,
+            IEmailService emailService)
         {
             _loginRepository = loginRepository;
             _tokenService = tokenService;
+            _emailService = emailService;
         }
 
         public async Task<ActionResult<LoginResponse>> LoginSignInAsync(
@@ -150,8 +154,30 @@ namespace CRUD_Products.Models.Login.Service
             return result;
         }
 
-        public Task<ActionResult<LoginResponse>> LoginForgetPasswordAsync(LoginRequest loginRequest)
+        public async Task<ActionResult<LoginResponse>> LoginForgetPasswordAsync(
+            LoginRequest loginRequest)
         {
+            var response = new LoginResponse();
+            var validateEmail = new User();
+            var messageFalse = "E-mail inválido";
+
+            validateEmail = await _loginRepository.ValidateEmailAsync(
+                loginRequest);
+
+            if (validateEmail.Email != loginRequest.Email)
+            {
+                response = new LoginResponse
+                {
+                    IsSuccess = false,
+                    Message = messageFalse
+                };
+
+                return response;
+            }
+
+            await _emailService.SendEmail(
+                loginRequest.Email);
+
             throw new NotImplementedException();
         }
     }

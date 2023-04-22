@@ -49,5 +49,16 @@ namespace CRUD_Products.Controllers.Login
 
             return Ok(result);
         }
+
+        [Route("forgetPassword")]
+        [HttpPost]
+        public async Task<IActionResult> PostForgetPasswordAsync(
+            LoginRequest request)
+        {
+            var result = await _loginService.LoginForgetPasswordAsync(
+                    request);
+
+            return Ok(result);
+        }
     }
 }

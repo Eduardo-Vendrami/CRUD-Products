@@ -23,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Services\Email\Models\" />
+    <Folder Include="Services\Email\Repository\" />
     <Folder Include="Services\Payment\Models\" />
     <Folder Include="Services\Payment\Provider\" />
     <Folder Include="Services\Payment\Repository\" />

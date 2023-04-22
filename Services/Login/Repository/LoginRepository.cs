@@ -101,10 +101,11 @@ namespace CRUD_Products.Models.Login.Repository
                 {
                     var parameters = new
                     {
-                        username = loginRequest.Username
+                        username = loginRequest.Username,
+                        email = loginRequest?.Email
                     };
 
-                    var sql = @"SELECT USERNAME As Username
+                    var sql = $@"SELECT USERNAME As Username
                             FROM USERS
                             WHERE USERNAME = @username";
 
@@ -143,6 +144,36 @@ namespace CRUD_Products.Models.Login.Repository
                                 WHERE USERNAME = @username AND ID = @userId";
 
                     return await connection.ExecuteAsync(
+                        sql,
+                        parameters);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }            
+        }
+
+        public async Task<User> ValidateEmailAsync(
+            LoginRequest loginRequest)
+        {
+            var connectionString = _connection.GetConnectionStringAppSettings();
+
+            try
+            {
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    var parameters = new
+                    {
+                        email = loginRequest?.Email
+                    };
+
+                    var sql = $@"SELECT EMAIL As Email
+                                 FROM USERS
+                                 WHERE EMAIL = @email";
+
+                    return await connection.QueryFirstOrDefaultAsync<User>(
                         sql,
                         parameters);
                 }

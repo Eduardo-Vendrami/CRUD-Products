@@ -16,5 +16,7 @@ namespace CRUD_Products.Models.Login.Repository
             LoginRequest loginRequest);
         public Task<int> UpdateUserAsync(
             LoginRequest loginRequest);
+        public Task<User> ValidateEmailAsync(
+            LoginRequest loginRequest);
     }
 }
