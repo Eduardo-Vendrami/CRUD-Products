@@ -1,5 +1,5 @@
 ﻿using CRUD_Products.Models.Products.Repository;
-using CRUD_Products.Models.Products.Service;
+using CRUD_Products.Models.Product.Service;
 using SimpleInjector;
 
 namespace CRUD_Products.Models.Products

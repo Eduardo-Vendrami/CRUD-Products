@@ -19,5 +19,8 @@ namespace CRUD_Products.Models.Products.Models
 
         [JsonProperty("productId")]
         public string ProductId { get; set; }
+
+        [JsonProperty("all")]
+        public bool All { get; set; }
     }
 }

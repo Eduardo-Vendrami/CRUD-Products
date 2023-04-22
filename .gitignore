@@ -1,0 +1,57 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/CRUD-Products/FileContentIndex/e591d5d3-13ee-4c03-be57-edf949061139.vsidx
+/.vs/CRUD-Products/FileContentIndex/2b25e304-8bda-4753-8b73-2e21bd7e2ac9.vsidx
+/.vs/CRUD-Products/FileContentIndex/2986fd9b-a7b8-4a9c-bc43-4bff4c69a74a.vsidx
+/.vs/CRUD-Products/FileContentIndex/6aca016a-d56f-45d6-8f8a-395b71a45a7c.vsidx
+*.vsidx
+/.vs/CRUD-Products/DesignTimeBuild/.dtbcache.v2
+
+# Visual Studio files
+.vs/
+bin/
+obj/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+
+# NuGet Packages
+*.nupkg
+packages/
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Resharper files
+_ReSharper*/
+
+# Code lens cache directory used by Visual Studio
+.vscode/
+
+# User-specific files
+*.user
+*.suo
+*.sln.docstates
+
+# Build results
+[Tt]est[Rr]esult*
+[Bb]uild[Ll]og.*
+
+# Roslyn cache directories
+# see: https://github.com/github/gitignore/pull/1529
+*.ide/
+*.sln.ide/
+*.suo.ide/
+*.sln.ide-shm
+*.sln.ide-wal
+*.resharper
+/bin/Debug/net7.0/CRUD-Products.dll
+/obj/Debug/net7.0/refint/CRUD-Products.dll
+/obj/Debug/net7.0/ref/CRUD-Products.dll
+/obj/Debug/net7.0/CRUD-Products.pdb
+/obj/Debug/net7.0/CRUD-Products.dll
+/bin/Debug/net7.0/CRUD-Products.pdb
