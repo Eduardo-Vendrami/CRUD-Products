@@ -159,7 +159,14 @@ namespace CRUD_Products.Models.Login.Service
         {
             var response = new LoginResponse();
             var validateEmail = new User();
-            var messageFalse = "E-mail inválido";
+            var messageInvalid = "E-mail inválido";
+            var messageTrue = "E-mail enviado com sucesso";
+            var subject = "Código de confirmação";
+            var message = "Seu código de confirmação é: ";
+
+           
+            var body = await GetBodyAsync(
+                message);
 
             validateEmail = await _loginRepository.ValidateEmailAsync(
                 loginRequest);
@@ -169,16 +176,46 @@ namespace CRUD_Products.Models.Login.Service
                 response = new LoginResponse
                 {
                     IsSuccess = false,
-                    Message = messageFalse
+                    Message = messageInvalid
                 };
 
                 return response;
             }
 
-            await _emailService.SendEmail(
-                loginRequest.Email);
+            var sendEmail = await _emailService.SendEmailAsync(
+                loginRequest.Email,
+                subject,
+                body);
 
-            throw new NotImplementedException();
+            if (!sendEmail)
+            {
+                response = new LoginResponse
+                {
+                    IsSuccess = false
+                };
+
+                return response;
+            }
+
+            response = new LoginResponse
+            {
+                IsSuccess = true,
+                Message = messageTrue
+            };
+
+            return response;
+        }
+
+        private async Task<string> GetBodyAsync(
+            string message)
+        {
+            Random random = new Random();
+
+            var id = random.Next();
+
+            var body = message + id;
+
+            return body;
         }
     }
 }

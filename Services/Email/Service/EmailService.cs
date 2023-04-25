@@ -5,16 +5,18 @@ namespace CRUD_Products.Services.Email.Service
 {
     public class EmailService : IEmailService
     {
-        public async Task<string> SendEmail(
-            string address)
-        {
+        public async Task<bool> SendEmailAsync(
+            string address,
+            string subject,
+            string body)
+        {   
 
-            var message = new MailMessage
+            var mail = new MailMessage
             {
                 From = new MailAddress("eduardovlmartins@outlook.com"),
                 To = { address },
-                Subject = "Código de confirmação",
-                Body = "TESTE"
+                Subject = subject,
+                Body = body
             };
 
             var smtpClient = new SmtpClient("smtp.office365.com")
@@ -27,15 +29,14 @@ namespace CRUD_Products.Services.Email.Service
 
             try
             {
-                smtpClient.Send(message);
+                smtpClient.Send(mail);
             }
             catch (Exception ex)
             {
-
-                throw;
+                return false;
             }
 
-            return "E-mail enviado com sucesso";
+            return true;
         }
     }
 }
